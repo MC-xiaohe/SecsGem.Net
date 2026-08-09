@@ -47,10 +47,13 @@ public sealed class HsmsMessage
         Header = new HsmsHeader { SessionId = 0xFFFF, SType = HsmsSType.SeparateRequest, SystemBytes = systemBytes }
     };
 
-    /// <summary>编码为完整帧（长度 + 头 + 数据）。</summary>
+    /// <summary>编码为完整帧（长度 + 头 + 数据）。
+    /// 注意：E37 规定 Length 以 4 字节字为单位向上取整，且不足 word 的部分
+    /// 必须补齐填充字节一并发送，否则接收端会阻塞等待永远不来的字节。</summary>
     public byte[] Encode()
     {
-        var frame = new byte[LengthFieldSize + HsmsHeader.ByteLength + Data.Length];
+        int paddedDataLength = (int)(TotalLengthInWords * 4 - HsmsHeader.ByteLength);
+        var frame = new byte[LengthFieldSize + HsmsHeader.ByteLength + paddedDataLength];
         BinaryPrimitives.WriteUInt32BigEndian(frame, TotalLengthInWords);
         Header.Encode(frame.AsSpan(LengthFieldSize));
         Data.CopyTo(frame, LengthFieldSize + HsmsHeader.ByteLength);
