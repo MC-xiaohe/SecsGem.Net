@@ -29,11 +29,11 @@ A lightweight, fully managed **SECS/GEM & GEM300** communication library in C#, 
 - ✅ 原始报文日志（Hex + SML 双格式，方便排障）
 
 ### GEM 层 (SEMI E30)
-- ✅ Control State / Processing State 状态机
-- ✅ Collection Events 与 Reports（S2F33/S2F35/S6F11）
-- ✅ Alarms（S5F1/S5F5）与 Remote Commands（S2F41）
-- ✅ Recipe 管理（上传 / 下载 / 选择 / 删除）
-- ✅ SVID / ECD / EID 数据变量管理
+- ✅ Control State / Processing State 状态机（S1F13 握手、S1F15/F17/F18 在线离线切换）
+- ✅ Collection Events 与 Reports（S2F33/S2F35/S2F37/S6F11）
+- ✅ Alarms（S5F1/S5F3）与 Remote Commands（S2F41）
+- ⬜ Recipe 管理（S2F15/S2F31，v0.3 规划）
+- ✅ SVID 数据变量管理
 
 ### GEM300（护城河 Moat）
 - ✅ **E87 (SEMI E87)**：LoadPort / Carrier 状态机完整实现
@@ -127,9 +127,9 @@ SecsGem.Net/
 
 | 阶段 | 内容 | 状态 |
 |------|------|------|
-| v0.1 | HSMS 通讯 + SECS-II 消息模型 + SML | 开发中 |
-| v0.2 | GEM (E30) 状态机 + 事件/告警/配方 | 规划中 |
-| v0.3 | GEM300：E87 / E90 完整示例 | 规划中 |
+| v0.1 | HSMS 通讯 + SECS-II 消息模型 + SML | ✅ 完成 |
+| v0.2 | GEM (E30) 状态机 + 事件/告警/远程命令 + SML 编解码 | ✅ 完成 |
+| v0.3 | GEM300：E87 / E90 完整示例 + Recipe 管理 | 规划中 |
 | v0.4 | 设备模拟器 + Host 测试台 GUI | 规划中 |
 | v1.0 | NuGet 发布 + 中文文档站 | 目标 |
 
