@@ -1,4 +1,6 @@
+using System.Text;
 using SecsGem.Net.Hsms;
+using SecsGem.Net.Messaging.Sml;
 
 namespace SecsGem.Net.Messaging;
 
@@ -33,7 +35,7 @@ public sealed class SecsMessage
             SType = HsmsSType.DataMessage,
             SystemBytes = SystemBytes
         },
-        Data = Body.EncodeBody()
+        Data = Body.IsEmpty ? Array.Empty<byte>() : Body.Encode()
     };
 
     /// <summary>从 HSMS 传输帧解析。</summary>
@@ -42,6 +44,11 @@ public sealed class SecsMessage
         if (!message.Header.IsDataMessage)
             throw new ArgumentException("不是 SECS 数据消息。", nameof(message));
 
+        int offset = 0;
+        var body = message.Data.Length > 0
+            ? DataItem.Decode(message.Data, ref offset)
+            : DataItem.Empty;
+
         return new SecsMessage
         {
             DeviceId = message.Header.DeviceId,
@@ -49,9 +56,32 @@ public sealed class SecsMessage
             FunctionNumber = message.Header.Function,
             WaitBit = message.Header.WaitBit,
             SystemBytes = message.Header.SystemBytes,
-            Body = DataItem.Decode(message.Data)
+            Body = body
         };
     }
+
+    /// <summary>
+    /// 输出消息 SML，例如：
+    /// S6F11 W
+    /// &lt;L ...&gt;
+    /// .
+    /// </summary>
+    public string ToSml()
+    {
+        var sb = new StringBuilder();
+        sb.Append($"S{StreamNumber}F{FunctionNumber}");
+        if (WaitBit)
+            sb.Append(" W");
+
+        if (!Body.IsEmpty)
+            sb.AppendLine().Append(Body.ToSml());
+
+        sb.AppendLine().Append('.');
+        return sb.ToString();
+    }
+
+    /// <summary>从消息 SML 文本解析（用于测试脚本、模拟器配置）。</summary>
+    public static SecsMessage Parse(string sml) => SmlParser.ParseMessage(sml);
 
     public override string ToString() => $"S{StreamNumber}F{FunctionNumber} W={(WaitBit ? 1 : 0)} Sys={SystemBytes:X8}";
 }

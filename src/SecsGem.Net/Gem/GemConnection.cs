@@ -45,7 +45,7 @@ public sealed class GemConnection : IDisposable
             FunctionNumber = 11,
             WaitBit = true,
             SystemBytes = NextSystemBytes(),
-            Body = DataItem.Create($"CE{ceId}")
+            Body = DataItem.A($"CE{ceId}")
         };
 
         await _transport.SendAsync(secs.ToHsmsMessage(), cancellationToken);
