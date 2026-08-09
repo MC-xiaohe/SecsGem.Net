@@ -36,10 +36,10 @@ A lightweight, fully managed **SECS/GEM & GEM300** communication library in C#, 
 - ✅ SVID 数据变量管理
 
 ### GEM300（护城河 Moat）
-- ✅ **E87 (SEMI E87)**：LoadPort / Carrier 状态机完整实现
-- ✅ **E90 (SEMI E90)**：基片（Substrate）追踪示例
-- ✅ **E94 (SEMI E94)**：Control Job 管理（规划中）
-- ✅ E39 / E40 基础对象模型（规划中）
+- ✅ **E87 (SEMI E87)**：LoadPort / Carrier 状态机完整实现（LOAD/UNLOAD/PROCESS 命令流 + 事件上报）
+- ✅ **E90 (SEMI E90)**：基片（Substrate）追踪（槽位级状态）
+- ⬜ **E94 (SEMI E94)**：Control Job 管理（规划中）
+- ⬜ E39 / E40 基础对象模型（规划中）
 
 ### 工具 Tools
 - ✅ 内置 **Equipment 模拟器**（WinForms / WPF），无需真实设备即可联调
@@ -129,8 +129,8 @@ SecsGem.Net/
 |------|------|------|
 | v0.1 | HSMS 通讯 + SECS-II 消息模型 + SML | ✅ 完成 |
 | v0.2 | GEM (E30) 状态机 + 事件/告警/远程命令 + SML 编解码 | ✅ 完成 |
-| v0.3 | GEM300：E87 / E90 完整示例 + Recipe 管理 | 规划中 |
-| v0.4 | 设备模拟器 + Host 测试台 GUI | 规划中 |
+| v0.3 | GEM300：E87 / E90 实现 + 载具命令流 | ✅ 完成 |
+| v0.4 | E94 Control Job + 设备模拟器 GUI | 规划中 |
 | v1.0 | NuGet 发布 + 中文文档站 | 目标 |
 
 ---
