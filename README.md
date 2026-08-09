@@ -150,7 +150,8 @@ SecsGem.Net/
 ## 📝 系列文章 Articles
 
 - [半导体设备自动化入门：手把手用 C# 实现 HSMS 通讯（SECS/GEM 零基础）](https://zhuanlan.zhihu.com/p/2069768337253458775) — 知乎（2026-08）
-- SECS-II 消息与 SML（撰写中）
+- [半导体设备自动化（二）：SECS-II 消息与 SML，看懂报文的另一半](https://zhuanlan.zhihu.com/p/2069773859717374424) — 知乎（2026-08）
+- GEM (E30) 状态机（撰写中）
 
 ---
 
