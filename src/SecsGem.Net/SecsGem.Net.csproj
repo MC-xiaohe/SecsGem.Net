@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>SecsGem.Net</RootNamespace>
+    <AssemblyName>SecsGem.Net</AssemblyName>
+    <PackageId>SecsGem.Net</PackageId>
+    <Version>0.1.0</Version>
+    <Description>Lightweight SECS/GEM &amp; GEM300 communication library for .NET (C#).</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- CS0067: v0.2 预留事件（EventReceived/AlarmReceived）尚未触发，属预期 -->
+    <NoWarn>$(NoWarn);CS1591;CS0067</NoWarn>
+  </PropertyGroup>
+
+</Project>

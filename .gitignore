@@ -1,0 +1,25 @@
+# Build output
+bin/
+obj/
+artifacts/
+*.user
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.suo
+*.userprefs
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+
+# Test results
+TestResults/
+*.trx
+
+# Logs
+*.log
+logs/
