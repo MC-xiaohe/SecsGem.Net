@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using SecsGem.Net.Gem300;
 using SecsGem.Net.Hsms;
 using SecsGem.Net.Messaging;
 
@@ -76,6 +77,9 @@ public sealed class GemConnection : IDisposable
     public ControlState ControlState { get; private set; } = ControlState.Offline;
 
     public ProcessingState ProcessingState { get; private set; } = ProcessingState.Idle;
+
+    /// <summary>LoadPort 集合（SEMI E87 载具管理）。</summary>
+    public List<LoadPort> LoadPorts { get; } = new();
 
     // ---------- 事件 ----------
 
@@ -396,7 +400,135 @@ public sealed class GemConnection : IDisposable
         }
 
         RemoteCommandReceived?.Invoke(this, new RemoteCommandEventArgs { Command = command, Arguments = args });
+
+        // E87 远程命令：LOAD / UNLOAD / PROCESS（第一参数为目标 LoadPort，如 "LP1" 或 "1"）
+        if (args.Count > 0 && TryGetLoadPort(args[0], out var port))
+        {
+            switch (command.ToUpperInvariant())
+            {
+                case "LOAD":
+                    await HandleLoadAsync(port, args, CancellationToken.None);
+                    break;
+                case "UNLOAD":
+                    await HandleUnloadAsync(port, CancellationToken.None);
+                    break;
+                case "PROCESS":
+                    await HandleProcessAsync(port, CancellationToken.None);
+                    break;
+            }
+        }
+
         await ReplyAsync(request, 42, DataItem.List(DataItem.U1(0))); // HCACK=0 接受
+    }
+
+    // ---------- E87 载具流程 ----------
+
+    /// <summary>上报 LoadPort 事件（S6F11，含端口号与载具 ID）。</summary>
+    public async Task SendLoadPortEventAsync(LoadPort port, ushort ceId, CancellationToken cancellationToken = default)
+    {
+        var body = DataItem.List(
+            DataItem.U4(ceId),
+            DataItem.List(
+                DataItem.List(
+                    DataItem.U4((uint)port.Number),
+                    DataItem.A(port.CarrierId ?? string.Empty)
+                )
+            )
+        );
+
+        var message = new SecsMessage
+        {
+            StreamNumber = 6,
+            FunctionNumber = 11,
+            WaitBit = true,
+            SystemBytes = NextSystemBytes(),
+            Body = body
+        };
+
+        await SendAsync(message, cancellationToken);
+    }
+
+    private async Task HandleLoadAsync(LoadPort port, List<string> args, CancellationToken ct)
+    {
+        // 载具到达 → 检测 → ID 读取 → 装载（E87 状态机：Empty → Loaded → Ready → Processing）
+        port.CarrierDetected = true;
+        await SendLoadPortEventAsync(port, E87EventIds.CarrierDetect, ct);
+
+        port.CarrierId = args.Count > 1 ? args[1] : $"CARRIER-{port.Number:D2}";
+        port.CarrierIdRead = true;
+        await SendLoadPortEventAsync(port, E87EventIds.CarrierIdRead, ct);
+
+        port.State = LoadPortState.Loaded;
+        await SendLoadPortEventAsync(port, E87EventIds.CarrierArrive, ct);
+
+        port.State = LoadPortState.Ready;
+        port.DoorOpen = true;
+        await SendLoadPortEventAsync(port, E87EventIds.LoadStart, ct);
+
+        // 模拟装载：填充全部槽位（E90 基片追踪）
+        for (int i = 0; i < port.SlotCount; i++)
+            port.Slots[i] = SubstrateState.Present;
+
+        port.State = LoadPortState.Processing;
+        port.DoorOpen = false;
+        await SendLoadPortEventAsync(port, E87EventIds.LoadComplete, ct);
+    }
+
+    private async Task HandleProcessAsync(LoadPort port, CancellationToken ct)
+    {
+        // 模拟加工：Present → Processing → Complete
+        for (int i = 0; i < port.SlotCount; i++)
+        {
+            if (port.Slots[i] == SubstrateState.Present)
+                port.Slots[i] = SubstrateState.Processing;
+        }
+
+        await Task.Delay(300, ct);
+
+        for (int i = 0; i < port.SlotCount; i++)
+        {
+            if (port.Slots[i] == SubstrateState.Processing)
+                port.Slots[i] = SubstrateState.Complete;
+        }
+
+        port.State = LoadPortState.Complete;
+    }
+
+    private async Task HandleUnloadAsync(LoadPort port, CancellationToken ct)
+    {
+        // 卸载：Complete → UnloadPending → Empty
+        string departingCarrierId = port.CarrierId ?? string.Empty;
+
+        port.State = LoadPortState.UnloadPending;
+        await SendLoadPortEventAsync(port, E87EventIds.UnloadStart, ct);
+
+        port.State = LoadPortState.Empty;
+        port.CarrierId = null;
+        port.CarrierDetected = false;
+        port.CarrierIdRead = false;
+        Array.Fill(port.Slots, SubstrateState.Empty);
+
+        await SendLoadPortEventAsync(port, E87EventIds.UnloadComplete, ct);
+
+        // 载具离开事件需要带上原载具 ID
+        port.CarrierId = departingCarrierId;
+        await SendLoadPortEventAsync(port, E87EventIds.CarrierDepart, ct);
+        port.CarrierId = null;
+    }
+
+    private bool TryGetLoadPort(string arg, out LoadPort port)
+    {
+        port = null!;
+        string number = arg.TrimStart('L', 'P', 'l', 'p');
+        if (!int.TryParse(number, out int n))
+            return false;
+
+        var found = LoadPorts.FirstOrDefault(p => p.Number == n);
+        if (found is null)
+            return false;
+
+        port = found;
+        return true;
     }
 
     private static AlarmReceivedEventArgs ParseAlarm(SecsMessage message)
