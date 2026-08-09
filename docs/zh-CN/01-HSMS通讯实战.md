@@ -2,7 +2,7 @@
 
 > 作者：王贺（EAP 自动化工程师）
 > 首发：知乎 / CSDN
-> 配套开源库：[SecsGem.Net](https://github.com/)（轻量级 C# SECS/GEM 通讯库）
+> 配套开源库：[SecsGem.Net](https://github.com/MC-xiaohe/SecsGem.Net)（轻量级 C# SECS/GEM 通讯库）
 
 半导体、光伏、面板行业做设备自动化的朋友应该都有体会：SECS/GEM 的资料少、门槛高、中文内容更是稀缺。很多新人拿到 SEMI 规范文档（E5/E30/E37），几百页英文直接劝退。
 
@@ -131,7 +131,7 @@ switch (message.Header.SType)
 
 这篇把 HSMS 通讯层讲完了。下一篇写 **SECS-II 消息与 SML**：S1F1/S1F2 设备识别、S2F33 数据变量定义、S6F11 事件上报，附完整 C# 实现。
 
-配套的开源库 [SecsGem.Net](https://github.com/) 正在开发中（C#，对标商业 SDK，含全中文文档），欢迎 Star 和提 Issue。有 SECS/GEM 联机调试、GEM300 集成需求的同行也欢迎交流。
+配套的开源库 [SecsGem.Net](https://github.com/MC-xiaohe/SecsGem.Net) 正在开发中（C#，对标商业 SDK，含全中文文档），欢迎 Star 和提 Issue。有 SECS/GEM 联机调试、GEM300 集成需求的同行也欢迎交流。
 
 ---
 
