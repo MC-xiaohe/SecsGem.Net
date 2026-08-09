@@ -1,6 +1,6 @@
 # 半导体设备自动化入门：手把手用 C# 实现 HSMS 通讯（SECS/GEM 零基础）
 
-> 作者：王贺（EAP 自动化工程师）｜ 配套开源库：[SecsGem.Net](https://github.com/MC-xiaohe/SecsGem.Net)
+> 作者：MC-xiaohe（EAP 自动化工程师）｜ 配套开源库：[SecsGem.Net](https://github.com/MC-xiaohe/SecsGem.Net)
 
 做半导体、光伏、面板设备自动化的朋友应该都有体会：**SECS/GEM 的资料少、门槛高、中文内容更是稀缺**。新人拿到 SEMI 规范文档（E5/E30/E37），几百页英文直接劝退；网上能搜到的中文教程，要么是翻译腔，要么只讲概念不给能跑的代码。
 

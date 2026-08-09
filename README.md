@@ -163,7 +163,7 @@ SecsGem.Net/
 
 ## ☎️ 联系作者 Contact
 
-- 作者：王贺（EAP 自动化工程师，C# / SECS-GEM / GEM300）
+- 作者：MC-xiaohe（EAP 自动化工程师，C# / SECS-GEM / GEM300）
 - 服务：SECS/GEM 定制开发、GEM300 集成、远程联机排障（晚 7 点后 + 周末）
 - 欢迎同行交流，也欢迎设备商 / 工厂自动化项目合作
 

@@ -1,6 +1,6 @@
 # SECS/GEM 从零到一（二）：SECS-II 消息与 SML 实战，附可运行代码
 
-> 作者：王贺（EAP 自动化工程师）
+> 作者：MC-xiaohe（EAP 自动化工程师）
 > 配套开源库：[SecsGem.Net](https://github.com/MC-xiaohe/SecsGem.Net)（C#，支持 HSMS + SECS-II 完整编解码 + SML）
 
 上一篇我们打通了 HSMS 通讯层（TCP 连接、Select 握手、T3/T5/T6 超时）。但通讯层只负责"把字节流送过去"——**字节流里装的是什么，是 SECS-II 的事**。这一篇就把这层讲透，全部代码可在开源库里跑。

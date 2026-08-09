@@ -1,6 +1,6 @@
 # SECS/GEM 从零到一：用 C# 实现 HSMS 通讯（上篇）
 
-> 作者：王贺（EAP 自动化工程师）
+> 作者：MC-xiaohe（EAP 自动化工程师）
 > 首发：知乎 / CSDN
 > 配套开源库：[SecsGem.Net](https://github.com/MC-xiaohe/SecsGem.Net)（轻量级 C# SECS/GEM 通讯库）
 

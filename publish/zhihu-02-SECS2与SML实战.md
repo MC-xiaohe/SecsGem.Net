@@ -1,6 +1,6 @@
 # 半导体设备自动化（二）：SECS-II 消息与 SML，看懂报文的另一半
 
-> 作者：王贺（EAP 自动化工程师）｜ 配套开源库：[SecsGem.Net](https://github.com/MC-xiaohe/SecsGem.Net)
+> 作者：MC-xiaohe（EAP 自动化工程师）｜ 配套开源库：[SecsGem.Net](https://github.com/MC-xiaohe/SecsGem.Net)
 
 上一篇（[HSMS 通讯实战](https://zhuanlan.zhihu.com/p/2069768337253458775)）我们打通了通讯层——TCP 连接、Select 握手、超时参数。但通讯层只负责"把字节流送过去"，**字节流里装的是什么，是 SECS-II 的事**。这一篇把它讲透，全部代码可在开源库直接跑。
 

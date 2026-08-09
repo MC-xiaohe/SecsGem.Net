@@ -6,7 +6,7 @@ categories: [半导体自动化]
 
 # SECS/GEM 从零到一（一）：用 C# 实现 HSMS 通讯
 
-> 作者：王贺（EAP 自动化工程师）
+> 作者：MC-xiaohe（EAP 自动化工程师）
 > 原创声明：本文为作者原创，首发于 CSDN。
 > 配套开源库：[SecsGem.Net](https://github.com/MC-xiaohe/SecsGem.Net)（轻量级 C# SECS/GEM 通讯库，欢迎 Star）
 

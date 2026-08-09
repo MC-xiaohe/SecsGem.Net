@@ -6,7 +6,7 @@ categories: [半导体自动化]
 
 # SECS/GEM 从零到一（二）：SECS-II 消息与 SML 实战
 
-> 作者：王贺（EAP 自动化工程师）
+> 作者：MC-xiaohe（EAP 自动化工程师）
 > 原创声明：本文为作者原创，首发于 CSDN。
 > 配套开源库：[SecsGem.Net](https://github.com/MC-xiaohe/SecsGem.Net)（C#，支持 HSMS + SECS-II 完整编解码 + SML）
 
