@@ -147,6 +147,13 @@ SecsGem.Net/
 
 ---
 
+## 📝 系列文章 Articles
+
+- [半导体设备自动化入门：手把手用 C# 实现 HSMS 通讯（SECS/GEM 零基础）](https://zhuanlan.zhihu.com/p/2069768337253458775) — 知乎（2026-08）
+- SECS-II 消息与 SML（撰写中）
+
+---
+
 ## 📄 许可证 License
 
 [MIT](LICENSE)
